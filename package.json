@@ -1,0 +1,14 @@
+{
+  "name": "playful-girl",
+  "version": "1.0.0",
+  "description": "Playful Girl - web games arcade (Designed by Sonia Rashnavaz)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node smoke.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

@@ -1,0 +1,27 @@
+{
+ "users": {
+  "suniyarashna": {
+   "name": "suniyarashna",
+   "salt": "307c8e60a7f012377098c74ab0e01aae",
+   "hash": "45e53f0f9d2e4169162bea2ebca175942b141dd2c1a7218957abc4ce574ddb91",
+   "created": 1790772335352,
+   "games": {
+    "pong": {
+     "plays": 1,
+     "best": 0,
+     "last": 0,
+     "t": 1790772393903
+    },
+    "flappy": {
+     "plays": 3,
+     "best": 1,
+     "last": 1,
+     "t": 1790772441494
+    }
+   }
+  }
+ },
+ "sessions": {
+  "af1217406e44a36f36d9de78fb0d6d416858a6aaa7f81f51": "suniyarashna"
+ }
+}

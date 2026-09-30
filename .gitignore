@@ -1,0 +1,6 @@
+node_modules/
+bin/
+_*.txt
+dbg*.txt
+*.log
+.DS_Store

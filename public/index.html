@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playful Girl — sweet little arcade for girls who play</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="/"><span class="cube"></span>PLAYFUL<em>GIRL</em></a>
+  <div class="search"><input id="q" placeholder="Find your favorite… ✨" autocomplete="off"></div>
+  <div class="nav-stat" id="navStat">loading…</div>
+  <a id="acctChip" href="/account.html">👤 <span id="acctName">Sign in</span></a>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="kicker"><span class="dot"></span>TODAY'S STAR PICK ♥</span>
+    <h1 id="featTitle"></h1>
+    <p class="sub" id="featDesc"></p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" id="featPlay" href="#">▶ PLAY NOW 💖</a>
+      <a class="btn btn-ghost" href="#all">Browse all games ✿</a>
+    </div>
+    <div class="hero-stats">
+      <div><b id="hPlays">—</b>total plays</div>
+      <div><b id="hRate">—</b>player rating</div>
+      <div><b id="hGames">5</b>original titles</div>
+    </div>
+  </div>
+  <div class="frame">
+    <span class="tag">♥ STAR GAME</span>
+    <canvas id="featCover" width="640" height="360"></canvas>
+  </div>
+</section>
+
+<main id="all">
+  <div class="sec-head"><h2>All Games</h2><span id="count"></span></div>
+  <div class="pills" id="pills"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  PLAYFUL GIRL — built from scratch with love: zero frameworks, five hand-coded HTML5 canvas games.<br>
+  Runs entirely in your browser. No installs · free accounts save your records · no ads. Made with 💖 and glitter.<br>
+  <b style="color:var(--acc)">Designed by Sonia Rashnavaz</b>
+</footer>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

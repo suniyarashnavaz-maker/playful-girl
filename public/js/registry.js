@@ -1,0 +1,23 @@
+export const GAMES = [
+  { id:'tetris', title:'Blockstorm Tetris', tag:'puzzle blocks', cat:'Puzzle', w:460, h:468, featured:true,
+    desc:'The eternal fall. Ghost drops, combo scoring, a seven-bag randomizer that never repeats early, and levels that keep stepping on the gas. Build the streak.',
+    controls:['← → — move','↑ / X — rotate','↓ — soft drop','SPACE — hard drop'],
+    plays:398206, rating:4.8, votes:15930 },
+  { id:'breakout', title:'Brix Storm', tag:'action bricks', cat:'Action', w:680, h:460,
+    desc:'Smash the wall, bank the angles, chase the clean board. Three lives, one paddle, zero excuses.',
+    controls:['Mouse / ← → — move paddle','Click / SPACE — launch ball'],
+    plays:421009, rating:4.7, votes:12044 },
+  { id:'snake', title:'Neon Serpent', tag:'arcade classic grow', cat:'Arcade', w:480, h:480,
+    desc:'Classic snake, reborn in neon. Eat, grow, and out-think your own tail — the speed climbs with every meal.',
+    controls:['Arrow keys / WASD — steer'],
+    plays:312481, rating:4.6, votes:8122 },
+  { id:'flappy', title:'Skippy Bird', tag:'casual reflex one-button', cat:'Casual', w:460, h:600,
+    desc:'One button. Zero mercy. Gravity does not negotiate. How far can a stubborn little bird really fly?',
+    controls:['SPACE / Click / Tap — flap'],
+    plays:287442, rating:4.2, votes:9871 },
+  { id:'pong', title:'Hyper Pong Duel', tag:'sports classic cpu', cat:'Sports', w:720, h:440,
+    desc:'1972, overclocked. You have the left paddle and the winning streak — the CPU gets everything else. First to seven takes it.',
+    controls:['Mouse / W / S / ↑ ↓ — move paddle'],
+    plays:208774, rating:4.3, votes:5210 },
+];
+export const byId = id => GAMES.find(g=>g.id===id);

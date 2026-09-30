@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Corner — Playful Girl</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="fx"></div>
+
+<header class="top">
+  <a class="logo" href="/"><span class="cube"></span>PLAYFUL<em>GIRL</em></a>
+  <div style="flex:1"></div>
+  <a class="btn btn-ghost" id="homeBtn" href="/">✿ All Games</a>
+  <button class="btn btn-ghost" id="logoutBtn" style="display:none">Sign out</button>
+</header>
+
+<main class="acct-main">
+
+  <!-- ======== SIGN IN / REGISTER ======== -->
+  <section class="acct-card panel" id="authCard">
+    <div class="acct-logo">🎀</div>
+    <h2 id="authTitle">Welcome back, cutie!</h2>
+    <p class="sub" id="authSub">Sign in so your scores &amp; bests are saved to your corner.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-t="login">Sign In</button>
+      <button class="tab" data-t="register">Create Account</button>
+    </div>
+
+    <form id="loginForm">
+      <input class="field" id="liName" placeholder="Username" autocomplete="username" maxlength="12">
+      <input class="field" id="liPass" type="password" placeholder="Password" autocomplete="current-password" maxlength="64">
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">♥ Sign In</button>
+    </form>
+
+    <form id="regForm" style="display:none">
+      <input class="field" id="rgName" placeholder="Pick a username (3–12 chars)" autocomplete="username" maxlength="12">
+      <input class="field" id="rgPass" type="password" placeholder="Pick a password (min 4 chars)" autocomplete="new-password" maxlength="64">
+      <input class="field" id="rgPass2" type="password" placeholder="One more time ✨" autocomplete="new-password" maxlength="64">
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">🌸 Create My Corner</button>
+    </form>
+
+    <div class="form-msg" id="authMsg"></div>
+  </section>
+
+  <!-- ======== PROFILE ======== -->
+  <section id="profileCard" style="display:none">
+    <div class="panel prof-head">
+      <div class="avatar" id="avatar">?</div>
+      <div style="flex:1">
+        <h2 id="profName">—</h2>
+        <span class="sub" id="profSince">—</span>
+      </div>
+      <div class="totbox">
+        <div><b id="totPlays">0</b><small>plays</small></div>
+        <div><b id="totGames">0</b><small>games tried</small></div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:22px"><h3>💾 My Saved Records</h3><span class="sub">auto-saved every time you play</span></div>
+    <div class="grid" id="recGrid"></div>
+    <p class="sub center-note" id="emptyNote" style="display:none">No records yet — go play something! 🎮<br><a href="/" style="color:var(--acc)">Pick a game →</a></p>
+  </section>
+</main>
+
+<footer>
+  PLAYFUL GIRL · my corner — your records live on this server as long as it's running.<br>
+  <b style="color:var(--acc)">Designed by Sonia Rashnavaz</b>
+</footer>
+
+<script type="module">
+const $ = s => document.querySelector(s);
+import { paint } from '/js/coverart.js';
+const GAMES = await (async()=>{ try { const m = await import('/js/registry.js'); return m.GAMES; } catch { return []; } })();
+const order = ['tetris','breakout','snake','flappy','pong'];
+GAMES.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+
+/* drifting sparkles */
+(function(){
+  const el = $('#fx'); let h='';
+  for(let i=0;i<14;i++) h += `<i style="left:${Math.random()*100}vw;animation-delay:-${(Math.random()*14).toFixed(1)}s;animation-duration:${(10+Math.random()*14).toFixed(1)}s;font-size:${(12+Math.random()*16)|0}px">${['♥','✦','🌸','✿'][i%4]}</i>`;
+  el.innerHTML = h;
+})();
+
+const msg = t => { const m=$('#authMsg'); m.textContent=t||''; m.className='form-msg'+(t?' show':''); };
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  const reg = t.dataset.t==='register';
+  $('#loginForm').style.display = reg?'none':'block';
+  $('#regForm').style.display   = reg?'block':'none';
+  $('#authTitle').textContent = reg ? 'Make a new corner!' : 'Welcome back, cutie!';
+  $('#authSub').textContent   = reg ? 'Save your bests forever. Takes ten seconds.' : 'Sign in so your scores & bests are saved to your corner.';
+  msg('');
+}));
+
+async function api(u,o){ const r = await fetch(u, o?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}:undefined);
+  return { status:r.status, body:await r.json().catch(()=>({})) }; }
+
+$('#loginForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const r = await api('/api/login',{username:$('#liName').value,password:$('#liPass').value});
+  if(r.body.ok) showProfile(r.body.user); else msg(r.body.error||'Something went wrong 💔');
+});
+$('#regForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  if($('#rgPass').value !== $('#rgPass2').value) return msg('Passwords don\'t match ✏️');
+  const r = await api('/api/register',{username:$('#rgName').value,password:$('#rgPass').value});
+  if(r.body.ok) showProfile(r.body.user); else msg(r.body.error||'Something went wrong 💔');
+});
+
+function showProfile(user){
+  $('#authCard').style.display='none';
+  $('#profileCard').style.display='block';
+  $('#logoutBtn').style.display='inline-flex';
+  document.title = `Hi ${user.name} — Playful Girl`;
+  $('#avatar').textContent = user.name[0].toUpperCase();
+  $('#profName').textContent = '@' + user.name;
+  $('#profSince').textContent = 'member since ' + new Date(user.created).toLocaleDateString();
+
+  const g = user.games || {};
+  const played = Object.keys(g).length;
+  let totP = 0;
+  const cells = GAMES.map(meta=>{
+    const r = g[meta.id] || null;
+    totP += r ? r.plays : 0;
+    return `<div class="card rec-card">
+      <div class="cov"><canvas width="320" height="180" data-art="${meta.id}"></canvas></div>
+      <div class="body">
+        <h3>${meta.title}</h3>
+        ${r ? `<div class="rec-row">
+          <span class="pill2">▶ ${r.plays} plays</span>
+          <span class="pill2 best">👑 best ${r.best}</span>
+          <span class="pill2">last ${r.last}</span>
+        </div>
+        <a class="btn btn-mini" href="/game.html?id=${meta.id}">play again 💖</a>`
+           : `<p>not tried yet</p><a class="btn btn-mini" href="/game.html?id=${meta.id}">try it ✨</a>`}
+      </div>
+    </div>`;
+  }).join('');
+  $('#recGrid').innerHTML = cells;
+  document.querySelectorAll('#recGrid canvas[data-art]').forEach(c=>paint(c,c.dataset.art));
+  $('#totPlays').textContent = totP.toLocaleString();
+  $('#totGames').textContent = played;
+  $('#emptyNote').style.display = played ? 'none' : 'block';
+}
+
+$('#logoutBtn').addEventListener('click', async ()=>{ await api('/api/logout',{}); location.href='/account.html'; });
+
+(async ()=>{ const r = await api('/api/me'); if(r.body.user) showProfile(r.body.user); })();
+</script>
+</body>
+</html>
